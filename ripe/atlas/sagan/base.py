@@ -23,9 +23,12 @@ from .helpers.compatibility import string
 
 # Try to use ujson if it's available
 try:
-    import ujson as json
+    import orjson as json
 except ImportError:
-    import json
+    try:
+        import orjson as json
+    except ImportError:
+        import json
 
 
 class ResultParseError(Exception):
@@ -48,7 +51,9 @@ class Json(object):
     @staticmethod
     def loads(*args, **kwargs):
         try:
-            if json.__name__ == "ujson":
+            if json.__name__ == "orjson":
+                return json.loads(*args, **kwargs)
+            elif json.__name__ == "ujson":
                 return json.loads(*args, **kwargs)
             return json.loads(strict=False, *args, **kwargs)
         except ValueError:

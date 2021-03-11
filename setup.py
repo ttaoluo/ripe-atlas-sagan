@@ -45,7 +45,7 @@ with open(readme_path) as readme:
             install_requires=install_requires,
             tests_require=tests_require,
             extras_require={
-                "fast": ["ujson"],
+                "fast": ["ujson","orjson"],
                 "doc": ["sphinx"]
             },
             test_suite="nose.collector",
